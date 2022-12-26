@@ -7,8 +7,6 @@
 # Первый пример
 class RoadAttrValidator:
     """Класс для валидации отрицательных значений"""
-    def __init__(self, my_attr):
-        self.my_attr = my_attr
 
     def __set__(self, instance, value):
         if isinstance(value, int) and isinstance(value, float):
@@ -19,6 +17,9 @@ class RoadAttrValidator:
                              f' отрицательным!')
         instance.__dict__[self.my_attr] = value
 
+    def __set_name__(self, owner, name):
+        self.my_attr = name
+
 
 class Road:
     """
@@ -27,8 +28,8 @@ class Road:
     single_asphalt_mass = 25
     height_road = 5
 
-    length = RoadAttrValidator('length')
-    width = RoadAttrValidator('width')
+    length = RoadAttrValidator()
+    width = RoadAttrValidator()
 
     def __init__(self, length, width):
         self.length = length
@@ -67,8 +68,6 @@ print('')
 # Второй пример
 class NumValueValidator:
     """Класс для валидации числовых значений"""
-    def __init__(self, my_attr):
-        self.my_attr = my_attr
 
     def __set__(self, instance, value):
         if not isinstance(value, int) and not isinstance(value, float):
@@ -79,37 +78,41 @@ class NumValueValidator:
                              f' положительным!')
         instance.__dict__[self.my_attr] = value
 
+    def __set_name__(self, owner, my_attr):
+        self.my_attr = my_attr
 
 class StrValueValidator:
     """Класс для валидации строковых значений"""
-    def __init__(self, my_attr):
-        self.my_attr = my_attr
 
     def __set__(self, instance, value):
         if not isinstance(value, str):
             raise ValueError(f'Значение {self.my_attr} должно иметь тип str!')
         instance.__dict__[self.my_attr] = value
 
+    def __set_name__(self, owner, my_attr):
+        self.my_attr = my_attr
+
 
 class BoolValueValidator:
     """Класс для валидации булевых значений"""
-    def __init__(self, my_attr):
-        self.my_attr = my_attr
 
     def __set__(self, instance, value):
         if not isinstance(value, bool):
             raise ValueError(f'Значение {self.my_attr} должно иметь тип bool!')
         instance.__dict__[self.my_attr] = value
 
+    def __set_name__(self, owner, my_attr):
+        self.my_attr = my_attr
+
 
 class Car:
     """
     Класс машин
     """
-    speed = NumValueValidator('speed')
-    color = StrValueValidator('color')
-    name = StrValueValidator('name')
-    is_police = BoolValueValidator('is_police')
+    speed = NumValueValidator()
+    color = StrValueValidator()
+    name = StrValueValidator()
+    is_police = BoolValueValidator()
 
     def __init__(self, speed, color, name, is_police):
         self.speed = speed
