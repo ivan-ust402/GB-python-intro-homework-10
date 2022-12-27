@@ -1,5 +1,7 @@
 .idea/
 
+task1_test.py
+task2_test.py
 # dotenv
 .env
 
